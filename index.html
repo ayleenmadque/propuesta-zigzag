@@ -562,19 +562,18 @@ h1 { animation-delay: 0.2s; }
           </div>
           <div style="font-size:11px;color:#888;margin-bottom:10px;">Escuela El Arrayán · Vista docente</div>
           <div style="display:flex;gap:6px;margin-bottom:10px;">
-            <select style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--gris-borde);"><option>4° básico A</option><option>4° básico B</option><option>6° básico A</option><option>8° básico A</option></select>
-            <select style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--gris-borde);"><option>Matemática</option><option>Lenguaje</option></select>
+            <select id="cur-curso" onchange="renderCurso()" style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--gris-borde);">
+              <option value="4a">4° básico A</option>
+              <option value="4b">4° básico B</option>
+              <option value="6a">6° básico A</option>
+              <option value="8a">8° básico A</option>
+            </select>
+            <select id="cur-asig" onchange="renderCurso()" style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--gris-borde);">
+              <option value="mat">Matemática</option>
+              <option value="len">Lenguaje</option>
+            </select>
           </div>
-          <table class="dtbl"><thead><tr><th>Estudiante</th><th>Logro</th><th>Correctas</th><th>Nivel</th></tr></thead><tbody>
-            <tr><td>Estudiante 1</td><td>88%</td><td>21 / 24</td><td><span class="bg">Alto</span></td></tr>
-            <tr><td>Estudiante 2</td><td>75%</td><td>18 / 24</td><td><span class="bg">Alto</span></td></tr>
-            <tr><td>Estudiante 3</td><td>63%</td><td>15 / 24</td><td><span class="ba">Medio</span></td></tr>
-            <tr><td>Estudiante 4</td><td>54%</td><td>13 / 24</td><td><span class="br">Bajo</span></td></tr>
-            <tr><td>Estudiante 5</td><td>79%</td><td>19 / 24</td><td><span class="bg">Alto</span></td></tr>
-            <tr><td>Estudiante 6</td><td>46%</td><td>11 / 24</td><td><span class="br">Bajo</span></td></tr>
-            <tr><td>Estudiante 7</td><td>83%</td><td>20 / 24</td><td><span class="bg">Alto</span></td></tr>
-            <tr><td>Estudiante 8</td><td>67%</td><td>16 / 24</td><td><span class="ba">Medio</span></td></tr>
-          </tbody></table>
+          <table class="dtbl"><thead><tr><th>Estudiante</th><th>Logro</th><th>Correctas</th><th>Nivel</th></tr></thead><tbody id="curso-tbody"></tbody></table>
         </div>
 
         <div id="dp-doc" class="dpanel">
@@ -871,6 +870,43 @@ let cp=null, c4done=false;
 
 new Chart(document.getElementById('dc1'),{type:'bar',data:{labels:['4° básico','6° básico','8° básico'],datasets:[{label:'Matemática',data:[58,63,65],backgroundColor:'#378ADD',borderWidth:0},{label:'Lenguaje',data:[71,69,72],backgroundColor:'#1D9E75',borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9}},grid:{display:false}},y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:9}}}}}});
 new Chart(document.getElementById('dc2'),{type:'doughnut',data:{labels:['Alto','Medio','Bajo'],datasets:[{data:[28,45,27],backgroundColor:['#3B6D11','#EF9F27','#E24B4A'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
+
+const cursosData = {
+  '4a': {
+    mat: [[88,21],[75,18],[63,15],[54,13],[79,19],[46,11],[83,20],[67,16],[71,17],[58,14]],
+    len: [[80,19],[72,17],[65,16],[88,21],[59,14],[77,18],[83,20],[70,17],[66,16],[75,18]]
+  },
+  '4b': {
+    mat: [[65,16],[72,17],[80,19],[55,13],[68,16],[74,18],[60,14],[82,20],[70,17],[77,18]],
+    len: [[70,17],[85,20],[62,15],[75,18],[80,19],[68,16],[73,17],[78,19],[65,16],[82,20]]
+  },
+  '6a': {
+    mat: [[74,18],[66,16],[82,20],[58,14],[77,18],[63,15],[85,20],[71,17],[69,17],[78,19]],
+    len: [[79,19],[68,16],[83,20],[72,17],[76,18],[65,16],[80,19],[74,18],[70,17],[77,18]]
+  },
+  '8a': {
+    mat: [[78,19],[85,20],[63,15],[71,17],[56,13],[74,18],[82,20],[67,16],[75,18],[69,17]],
+    len: [[83,20],[75,18],[68,16],[80,19],[72,17],[77,18],[65,16],[85,20],[70,17],[78,19]]
+  }
+};
+
+function nivel(p) {
+  if(p>=75) return '<span class="bg">Alto</span>';
+  if(p>=60) return '<span class="ba">Medio</span>';
+  return '<span class="br">Bajo</span>';
+}
+
+function renderCurso() {
+  const c = document.getElementById('cur-curso').value;
+  const a = document.getElementById('cur-asig').value;
+  const data = cursosData[c][a];
+  const total = 24;
+  document.getElementById('curso-tbody').innerHTML = data.map((r,i) =>
+    `<tr><td>Estudiante ${i+1}</td><td>${r[0]}%</td><td>${r[1]} / ${total}</td><td>${nivel(r[0])}</td></tr>`
+  ).join('');
+}
+renderCurso();
+
 
 function rdp(){
   const a=document.getElementById('dfa').value,n=document.getElementById('dfn').value,d=pregs[a][n];
