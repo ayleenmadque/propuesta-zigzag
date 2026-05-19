@@ -221,6 +221,8 @@ h1 { animation-delay: 0.2s; }
 .hero-actions { animation-delay: 0.4s; }
 .hero-visual { animation: fadeUp 0.8s 0.3s ease both; }
 
+.sv-panel { display: none; } .sv-panel.active { display: block; }
+
 @media (max-width: 900px) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
@@ -460,73 +462,179 @@ h1 { animation-delay: 0.2s; }
     <div class="demo-body">
       <div class="demo-sidebar">
         <div class="demo-sidebar-title">Evaluaciones</div>
-        <div class="demo-sidebar-item active"><i class="fas fa-chart-bar" style="font-size:13px;"></i> Resultados</div>
-        <div class="demo-sidebar-item"><i class="fas fa-school" style="font-size:13px;"></i> Mi colegio</div>
-        <div class="demo-sidebar-item"><i class="fas fa-users" style="font-size:13px;"></i> Por curso</div>
+        <div class="demo-sidebar-item active" onclick="showSidebar('resultados',this)"><i class="fas fa-chart-bar" style="font-size:13px;"></i> Resultados</div>
+        <div class="demo-sidebar-item" onclick="showSidebar('micolegio',this)"><i class="fas fa-school" style="font-size:13px;"></i> Mi colegio</div>
+        <div class="demo-sidebar-item" onclick="showSidebar('porcurso',this)"><i class="fas fa-users" style="font-size:13px;"></i> Por curso</div>
         <div class="demo-sidebar-title" style="margin-top:16px;">Recursos</div>
-        <div class="demo-sidebar-item"><i class="fas fa-file" style="font-size:13px;"></i> Documentos</div>
-        <div class="demo-sidebar-item"><i class="fas fa-download" style="font-size:13px;"></i> Descargar</div>
+        <div class="demo-sidebar-item" onclick="showSidebar('documentos',this)"><i class="fas fa-file" style="font-size:13px;"></i> Documentos</div>
+        <div class="demo-sidebar-item" onclick="showSidebar('descargar',this)"><i class="fas fa-download" style="font-size:13px;"></i> Descargar</div>
       </div>
       <div class="demo-content">
-        <div class="demo-breadcrumb">Intranet › <span>Resultados de Evaluaciones</span></div>
-        <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:3px;">
-          <div class="demo-page-title">Evaluación Diagnóstica 2026</div>
-          <span class="demo-badge">Datos ficticios</span>
-        </div>
-        <div class="demo-page-sub">Corporación Municipal de Lampa · 11 colegios · 1.842 estudiantes evaluados</div>
-        <div class="d-metrics">
-          <div class="d-metric"><div class="d-metric-l">Logro general</div><div class="d-metric-v" style="color: var(--azul);">67%</div></div>
-          <div class="d-metric"><div class="d-metric-l">Estudiantes</div><div class="d-metric-v">1.842</div></div>
-          <div class="d-metric"><div class="d-metric-l">Colegios</div><div class="d-metric-v">11</div></div>
-          <div class="d-metric"><div class="d-metric-l">Etapa</div><div class="d-metric-v" style="font-size:13px; padding-top:3px;">Diagnóstica</div></div>
-        </div>
-        <div class="d-bi-nav">
-          <button class="d-bi-btn active" onclick="showD('general',this)">Resumen</button>
-          <button class="d-bi-btn" onclick="showD('colegios',this)">Por colegio</button>
-          <button class="d-bi-btn" onclick="showD('preguntas',this)">Por pregunta</button>
-        </div>
-        <div id="d-general" class="d-panel active">
-          <div class="d-charts">
-            <div class="d-chart-card">
-              <div class="d-chart-title">Logro por asignatura y nivel</div>
-              <div class="d-legend"><span><span class="d-legend-dot" style="background:#378ADD;"></span>Matemática</span><span><span class="d-legend-dot" style="background:#1D9E75;"></span>Lenguaje</span></div>
-              <div style="position:relative; height:140px;"><canvas id="dc1" role="img" aria-label="Logro por asignatura y nivel">Mat: 4° 58%, 6° 63%, 8° 65%. Len: 4° 71%, 6° 69%, 8° 72%.</canvas></div>
+
+        <!-- VISTA: RESULTADOS -->
+        <div id="sv-resultados" class="sv-panel active">
+          <div class="demo-breadcrumb">Intranet › <span>Resultados de Evaluaciones</span></div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:3px;">
+            <div class="demo-page-title">Evaluación Diagnóstica 2026</div>
+            <span class="demo-badge">Datos ficticios</span>
+          </div>
+          <div class="demo-page-sub">Corporación Municipal de Lampa · 11 colegios · 1.842 estudiantes evaluados</div>
+          <div class="d-metrics">
+            <div class="d-metric"><div class="d-metric-l">Logro general</div><div class="d-metric-v" style="color: var(--azul);">67%</div></div>
+            <div class="d-metric"><div class="d-metric-l">Estudiantes</div><div class="d-metric-v">1.842</div></div>
+            <div class="d-metric"><div class="d-metric-l">Colegios</div><div class="d-metric-v">11</div></div>
+            <div class="d-metric"><div class="d-metric-l">Etapa</div><div class="d-metric-v" style="font-size:13px; padding-top:3px;">Diagnóstica</div></div>
+          </div>
+          <div class="d-bi-nav">
+            <button class="d-bi-btn active" onclick="showD('general',this)">Resumen</button>
+            <button class="d-bi-btn" onclick="showD('colegios',this)">Por colegio</button>
+            <button class="d-bi-btn" onclick="showD('preguntas',this)">Por pregunta</button>
+          </div>
+          <div id="d-general" class="d-panel active">
+            <div class="d-charts">
+              <div class="d-chart-card">
+                <div class="d-chart-title">Logro por asignatura y nivel</div>
+                <div class="d-legend"><span><span class="d-legend-dot" style="background:#378ADD;"></span>Matemática</span><span><span class="d-legend-dot" style="background:#1D9E75;"></span>Lenguaje</span></div>
+                <div style="position:relative; height:140px;"><canvas id="dc1" role="img" aria-label="Logro por asignatura y nivel">Mat: 4° 58%, 6° 63%, 8° 65%. Len: 4° 71%, 6° 69%, 8° 72%.</canvas></div>
+              </div>
+              <div class="d-chart-card">
+                <div class="d-chart-title">Distribución de logro</div>
+                <div class="d-legend"><span><span class="d-legend-dot" style="background:#3B6D11;"></span>Alto 28%</span><span><span class="d-legend-dot" style="background:#EF9F27;"></span>Medio 45%</span><span><span class="d-legend-dot" style="background:#E24B4A;"></span>Bajo 27%</span></div>
+                <div style="position:relative; height:140px;"><canvas id="dc2" role="img" aria-label="Distribución de logro">Alto 28%, medio 45%, bajo 27%.</canvas></div>
+              </div>
+            </div>
+          </div>
+          <div id="d-colegios" class="d-panel">
+            <table>
+              <thead><tr><th>Colegio</th><th>Matemática</th><th>Lenguaje</th><th>Promedio</th><th>Nivel</th></tr></thead>
+              <tbody>
+                <tr><td>Escuela El Arrayán</td><td><span class="b-amber">72%</span></td><td><span class="b-green">78%</span></td><td>75%</td><td><span class="b-green">Alto</span></td></tr>
+                <tr><td>Liceo Politécnico Lampa</td><td><span class="b-red">58%</span></td><td><span class="b-amber">64%</span></td><td>61%</td><td><span class="b-amber">Medio</span></td></tr>
+                <tr><td>Escuela Los Quillayes</td><td><span class="b-green">81%</span></td><td><span class="b-green">83%</span></td><td>82%</td><td><span class="b-green">Alto</span></td></tr>
+                <tr><td>Colegio Nueva Lampa</td><td><span class="b-amber">65%</span></td><td><span class="b-amber">70%</span></td><td>68%</td><td><span class="b-amber">Medio</span></td></tr>
+                <tr><td>Escuela Villa Esperanza</td><td><span class="b-red">52%</span></td><td><span class="b-amber">61%</span></td><td>57%</td><td><span class="b-red">Bajo</span></td></tr>
+                <tr><td>Liceo Juan de Dios Rivera</td><td><span class="b-amber">69%</span></td><td><span class="b-amber">74%</span></td><td>72%</td><td><span class="b-amber">Medio</span></td></tr>
+                <tr><td>Escuela Los Almendros</td><td><span class="b-green">76%</span></td><td><span class="b-green">79%</span></td><td>78%</td><td><span class="b-green">Alto</span></td></tr>
+                <tr><td>OIFA Lampa</td><td><span class="b-red">48%</span></td><td><span class="b-red">55%</span></td><td>52%</td><td><span class="b-red">Bajo</span></td></tr>
+                <tr><td>Escuela El Sauce</td><td><span class="b-amber">63%</span></td><td><span class="b-amber">68%</span></td><td>66%</td><td><span class="b-amber">Medio</span></td></tr>
+                <tr><td>Escuela Las Palmas</td><td><span class="b-amber">70%</span></td><td><span class="b-amber">75%</span></td><td>73%</td><td><span class="b-amber">Medio</span></td></tr>
+                <tr><td>Liceo Agrícola Lampa</td><td><span class="b-amber">67%</span></td><td><span class="b-amber">72%</span></td><td>70%</td><td><span class="b-amber">Medio</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="d-preguntas" class="d-panel">
+            <div class="d-filter-row">
+              <select id="da" onchange="renderDP()"><option value="mat">Matemática</option><option value="len">Lenguaje</option></select>
+              <select id="dn" onchange="renderDP()"><option value="4b">4° básico</option><option value="6b">6° básico</option><option value="8b">8° básico</option></select>
             </div>
             <div class="d-chart-card">
-              <div class="d-chart-title">Distribución de logro</div>
-              <div class="d-legend"><span><span class="d-legend-dot" style="background:#3B6D11;"></span>Alto 28%</span><span><span class="d-legend-dot" style="background:#EF9F27;"></span>Medio 45%</span><span><span class="d-legend-dot" style="background:#E24B4A;"></span>Bajo 27%</span></div>
-              <div style="position:relative; height:140px;"><canvas id="dc2" role="img" aria-label="Distribución de logro">Alto 28%, medio 45%, bajo 27%.</canvas></div>
+              <div class="d-chart-title" id="dpTitle">Logro por pregunta — Matemática 4° básico</div>
+              <div style="position:relative; height:160px;"><canvas id="dc3" role="img" aria-label="Logro por pregunta">Logro variable por pregunta.</canvas></div>
             </div>
           </div>
         </div>
-        <div id="d-colegios" class="d-panel">
+
+        <!-- VISTA: MI COLEGIO -->
+        <div id="sv-micolegio" class="sv-panel">
+          <div class="demo-breadcrumb">Intranet › <span>Mi colegio</span></div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:3px;">
+            <div class="demo-page-title">Escuela El Arrayán</div>
+            <span class="demo-badge">Datos ficticios</span>
+          </div>
+          <div class="demo-page-sub">Vista del directivo — Resultados diagnóstica 2026</div>
+          <div class="d-metrics">
+            <div class="d-metric"><div class="d-metric-l">Logro matemática</div><div class="d-metric-v" style="color: var(--amber);">72%</div></div>
+            <div class="d-metric"><div class="d-metric-l">Logro lenguaje</div><div class="d-metric-v" style="color: var(--verde);">78%</div></div>
+            <div class="d-metric"><div class="d-metric-l">Promedio</div><div class="d-metric-v" style="color: var(--azul);">75%</div></div>
+            <div class="d-metric"><div class="d-metric-l">Nivel</div><div class="d-metric-v"><span class="b-green" style="font-size:13px;">Alto</span></div></div>
+          </div>
+          <div class="d-chart-card" style="margin-bottom:12px;">
+            <div class="d-chart-title">Evolución por nivel — Matemática</div>
+            <div class="d-legend"><span><span class="d-legend-dot" style="background:#378ADD;"></span>4° básico</span><span><span class="d-legend-dot" style="background:#1D9E75;"></span>6° básico</span><span><span class="d-legend-dot" style="background:#E24B4A;"></span>8° básico</span></div>
+            <div style="position:relative; height:130px;"><canvas id="dc4" role="img" aria-label="Logro por nivel en Escuela El Arrayán">4° básico 68%, 6° básico 72%, 8° básico 75%.</canvas></div>
+          </div>
+          <div class="d-chart-card">
+            <div class="d-chart-title">Comparativa con promedio red de colegios</div>
+            <div style="position:relative; height:120px;"><canvas id="dc5" role="img" aria-label="Comparativa del colegio con el promedio de la red">Escuela El Arrayán vs promedio red.</canvas></div>
+          </div>
+        </div>
+
+        <!-- VISTA: POR CURSO -->
+        <div id="sv-porcurso" class="sv-panel">
+          <div class="demo-breadcrumb">Intranet › <span>Por curso</span></div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:3px;">
+            <div class="demo-page-title">Resultados por curso</div>
+            <span class="demo-badge">Datos ficticios</span>
+          </div>
+          <div class="demo-page-sub">Escuela El Arrayán · Vista docente</div>
+          <div class="d-filter-row" style="margin-bottom:12px;">
+            <select><option>4° básico A</option><option>4° básico B</option><option>6° básico A</option><option>8° básico A</option></select>
+            <select><option>Matemática</option><option>Lenguaje</option></select>
+          </div>
           <table>
-            <thead><tr><th>Colegio</th><th>Matemática</th><th>Lenguaje</th><th>Promedio</th><th>Nivel</th></tr></thead>
+            <thead><tr><th>Estudiante</th><th>Logro</th><th>Preguntas correctas</th><th>Nivel</th></tr></thead>
             <tbody>
-              <tr><td>Escuela El Arrayán</td><td><span class="b-amber">72%</span></td><td><span class="b-green">78%</span></td><td>75%</td><td><span class="b-green">Alto</span></td></tr>
-              <tr><td>Liceo Politécnico Lampa</td><td><span class="b-red">58%</span></td><td><span class="b-amber">64%</span></td><td>61%</td><td><span class="b-amber">Medio</span></td></tr>
-              <tr><td>Escuela Los Quillayes</td><td><span class="b-green">81%</span></td><td><span class="b-green">83%</span></td><td>82%</td><td><span class="b-green">Alto</span></td></tr>
-              <tr><td>Colegio Nueva Lampa</td><td><span class="b-amber">65%</span></td><td><span class="b-amber">70%</span></td><td>68%</td><td><span class="b-amber">Medio</span></td></tr>
-              <tr><td>Escuela Villa Esperanza</td><td><span class="b-red">52%</span></td><td><span class="b-amber">61%</span></td><td>57%</td><td><span class="b-red">Bajo</span></td></tr>
-              <tr><td>Liceo Juan de Dios Rivera</td><td><span class="b-amber">69%</span></td><td><span class="b-amber">74%</span></td><td>72%</td><td><span class="b-amber">Medio</span></td></tr>
-              <tr><td>Escuela Los Almendros</td><td><span class="b-green">76%</span></td><td><span class="b-green">79%</span></td><td>78%</td><td><span class="b-green">Alto</span></td></tr>
-              <tr><td>OIFA Lampa</td><td><span class="b-red">48%</span></td><td><span class="b-red">55%</span></td><td>52%</td><td><span class="b-red">Bajo</span></td></tr>
-              <tr><td>Escuela El Sauce</td><td><span class="b-amber">63%</span></td><td><span class="b-amber">68%</span></td><td>66%</td><td><span class="b-amber">Medio</span></td></tr>
-              <tr><td>Escuela Las Palmas</td><td><span class="b-amber">70%</span></td><td><span class="b-amber">75%</span></td><td>73%</td><td><span class="b-amber">Medio</span></td></tr>
-              <tr><td>Liceo Agrícola Lampa</td><td><span class="b-amber">67%</span></td><td><span class="b-amber">72%</span></td><td>70%</td><td><span class="b-amber">Medio</span></td></tr>
+              <tr><td>Estudiante 1</td><td>88%</td><td>21 / 24</td><td><span class="b-green">Alto</span></td></tr>
+              <tr><td>Estudiante 2</td><td>75%</td><td>18 / 24</td><td><span class="b-green">Alto</span></td></tr>
+              <tr><td>Estudiante 3</td><td>63%</td><td>15 / 24</td><td><span class="b-amber">Medio</span></td></tr>
+              <tr><td>Estudiante 4</td><td>54%</td><td>13 / 24</td><td><span class="b-red">Bajo</span></td></tr>
+              <tr><td>Estudiante 5</td><td>79%</td><td>19 / 24</td><td><span class="b-green">Alto</span></td></tr>
+              <tr><td>Estudiante 6</td><td>46%</td><td>11 / 24</td><td><span class="b-red">Bajo</span></td></tr>
+              <tr><td>Estudiante 7</td><td>83%</td><td>20 / 24</td><td><span class="b-green">Alto</span></td></tr>
+              <tr><td>Estudiante 8</td><td>67%</td><td>16 / 24</td><td><span class="b-amber">Medio</span></td></tr>
             </tbody>
           </table>
         </div>
-        <div id="d-preguntas" class="d-panel">
-          <div class="d-filter-row">
-            <select id="da" onchange="renderDP()"><option value="mat">Matemática</option><option value="len">Lenguaje</option></select>
-            <select id="dn" onchange="renderDP()"><option value="4b">4° básico</option><option value="6b">6° básico</option><option value="8b">8° básico</option></select>
+
+        <!-- VISTA: DOCUMENTOS -->
+        <div id="sv-documentos" class="sv-panel">
+          <div class="demo-breadcrumb">Intranet › <span>Documentos</span></div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:3px;">
+            <div class="demo-page-title">Documentos del programa</div>
+            <span class="demo-badge">Datos ficticios</span>
           </div>
-          <div class="d-chart-card">
-            <div class="d-chart-title" id="dpTitle">Logro por pregunta — Matemática 4° básico</div>
-            <div style="position:relative; height:160px;"><canvas id="dc3" role="img" aria-label="Logro por pregunta">Logro variable por pregunta.</canvas></div>
+          <div class="demo-page-sub">Recursos y materiales del proyecto de evaluación 2026</div>
+          <table style="margin-top:8px;">
+            <thead><tr><th>Nombre</th><th>Tipo</th><th>Fecha</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td>Bases del programa de evaluación 2026</td><td><span class="b-amber">PDF</span></td><td>15 abril 2026</td><td style="color: var(--rojo); cursor:pointer;">Ver</td></tr>
+              <tr><td>Instructivo para docentes — Aplicación instrumento</td><td><span class="b-amber">PDF</span></td><td>20 abril 2026</td><td style="color: var(--rojo); cursor:pointer;">Ver</td></tr>
+              <tr><td>Calendario de evaluaciones 2026</td><td><span class="b-amber">PDF</span></td><td>1 mayo 2026</td><td style="color: var(--rojo); cursor:pointer;">Ver</td></tr>
+              <tr><td>Rúbrica de corrección — Matemática</td><td><span class="b-green">Excel</span></td><td>5 mayo 2026</td><td style="color: var(--rojo); cursor:pointer;">Ver</td></tr>
+              <tr><td>Rúbrica de corrección — Lenguaje</td><td><span class="b-green">Excel</span></td><td>5 mayo 2026</td><td style="color: var(--rojo); cursor:pointer;">Ver</td></tr>
+              <tr><td>Presentación resultados diagnóstica — Sostenedor</td><td><span class="b-azul" style="background:#E6F1FB; color:#185FA5; display:inline-block; font-size:10px; padding:2px 7px; border-radius:4px; font-weight:500;">PPT</span></td><td>30 julio 2026</td><td style="color: var(--rojo); cursor:pointer;">Ver</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- VISTA: DESCARGAR -->
+        <div id="sv-descargar" class="sv-panel">
+          <div class="demo-breadcrumb">Intranet › <span>Descargar reportes</span></div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:3px;">
+            <div class="demo-page-title">Descarga de reportes</div>
+            <span class="demo-badge">Datos ficticios</span>
+          </div>
+          <div class="demo-page-sub">Exporta los resultados en distintos formatos</div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; background:white; border:1px solid var(--gris-borde); border-radius:10px; padding:14px 16px;">
+              <div><div style="font-size:13px; font-weight:500; color:var(--texto);">Reporte general — Todos los colegios</div><div style="font-size:11px; color:var(--texto-sec);">PDF · Diagnóstica 2026</div></div>
+              <button style="background:var(--rojo); color:white; border:none; border-radius:7px; padding:7px 16px; font-size:12px; cursor:pointer; font-weight:500;"><i class="fas fa-download"></i> Descargar</button>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; background:white; border:1px solid var(--gris-borde); border-radius:10px; padding:14px 16px;">
+              <div><div style="font-size:13px; font-weight:500; color:var(--texto);">Reporte por colegio — Escuela El Arrayán</div><div style="font-size:11px; color:var(--texto-sec);">PDF · Diagnóstica 2026</div></div>
+              <button style="background:var(--rojo); color:white; border:none; border-radius:7px; padding:7px 16px; font-size:12px; cursor:pointer; font-weight:500;"><i class="fas fa-download"></i> Descargar</button>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; background:white; border:1px solid var(--gris-borde); border-radius:10px; padding:14px 16px;">
+              <div><div style="font-size:13px; font-weight:500; color:var(--texto);">Base de datos — Resultados por estudiante</div><div style="font-size:11px; color:var(--texto-sec);">Excel · Diagnóstica 2026</div></div>
+              <button style="background:var(--rojo); color:white; border:none; border-radius:7px; padding:7px 16px; font-size:12px; cursor:pointer; font-weight:500;"><i class="fas fa-download"></i> Descargar</button>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; background:white; border:1px solid var(--gris-borde); border-radius:10px; padding:14px 16px;">
+              <div><div style="font-size:13px; font-weight:500; color:var(--texto);">Presentación para sostenedor</div><div style="font-size:11px; color:var(--texto-sec);">PPT · Diagnóstica 2026</div></div>
+              <button style="background:var(--rojo); color:white; border:none; border-radius:7px; padding:7px 16px; font-size:12px; cursor:pointer; font-weight:500;"><i class="fas fa-download"></i> Descargar</button>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -639,7 +747,44 @@ function renderDP() {
 }
 renderDP();
 
-function showD(id, btn) {
+function showSidebar(id, el) {
+  document.querySelectorAll('.sv-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.demo-sidebar-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('sv-' + id).classList.add('active');
+  el.classList.add('active');
+  if (id === 'micolegio') renderMiColegio();
+}
+
+function renderMiColegio() {
+  if (document.getElementById('dc4').dataset.rendered) return;
+  new Chart(document.getElementById('dc4'), {
+    type: 'bar',
+    data: { labels: ['4° básico','6° básico','8° básico'],
+      datasets: [
+        { label: '4° básico', data: [68, null, null], backgroundColor: '#378ADD', borderWidth: 0 },
+        { label: '6° básico', data: [null, 72, null], backgroundColor: '#1D9E75', borderWidth: 0 },
+        { label: '8° básico', data: [null, null, 75], backgroundColor: '#E24B4A', borderWidth: 0 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+      scales: { x: { ticks: { font: { size: 10 } }, grid: { display: false } }, y: { min: 0, max: 100, ticks: { callback: v => v+'%', font: { size: 10 } } } } }
+  });
+  new Chart(document.getElementById('dc5'), {
+    type: 'bar',
+    data: { labels: ['Matemática', 'Lenguaje'],
+      datasets: [
+        { label: 'Escuela El Arrayán', data: [72, 78], backgroundColor: '#E24B4A', borderWidth: 0 },
+        { label: 'Promedio red', data: [63, 69], backgroundColor: '#E5E5E3', borderWidth: 0 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 10 }, boxWidth: 10 } } },
+      scales: { x: { ticks: { font: { size: 10 } }, grid: { display: false } }, y: { min: 0, max: 100, ticks: { callback: v => v+'%', font: { size: 10 } } } } }
+  });
+  document.getElementById('dc4').dataset.rendered = '1';
+}
+
+
   document.querySelectorAll('.d-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.d-bi-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('d-' + id).classList.add('active');
